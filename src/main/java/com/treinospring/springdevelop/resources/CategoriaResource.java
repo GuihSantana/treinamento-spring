@@ -23,6 +23,5 @@ public class CategoriaResource {
         categorias.add(escrit);
 
         return categorias;
-
     }
 }
