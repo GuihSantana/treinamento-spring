@@ -32,7 +32,7 @@ public class SpringdevelopApplication implements CommandLineRunner {
 		Produto computador = new Produto(null, "Computador",2000.00);
 		Produto impressora = new Produto(null, "Impressora",1300.00);
 		Produto mouse = new Produto(null, "Mouse",80.00);
-
+		Produto mouseVermelho = new Produto(null, "Mouse",80.00);
 		categoriaInformatica.getProdutos().addAll(Arrays.asList(computador,impressora,mouse));
 		categoriaEscritório.getProdutos().add(impressora);
 
