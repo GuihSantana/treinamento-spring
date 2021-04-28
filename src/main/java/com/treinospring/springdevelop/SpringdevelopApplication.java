@@ -1,13 +1,8 @@
 package com.treinospring.springdevelop;
 
-import com.treinospring.springdevelop.domain.Categoria;
-import com.treinospring.springdevelop.domain.Cidade;
-import com.treinospring.springdevelop.domain.Estado;
-import com.treinospring.springdevelop.domain.Produto;
-import com.treinospring.springdevelop.repositories.CategoriaRepository;
-import com.treinospring.springdevelop.repositories.CidadeRepository;
-import com.treinospring.springdevelop.repositories.EstadoRepository;
-import com.treinospring.springdevelop.repositories.ProdutoRepository;
+import com.treinospring.springdevelop.domain.*;
+import com.treinospring.springdevelop.enums.TipoCliente;
+import com.treinospring.springdevelop.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -29,6 +24,12 @@ public class SpringdevelopApplication implements CommandLineRunner {
 
 	@Autowired
 	private CidadeRepository cidadeRepository;
+
+	@Autowired
+	private EnderecoRepository enderecoRepository;
+
+	@Autowired
+	private ClienteRepository clienteRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringdevelopApplication.class, args);
@@ -66,6 +67,21 @@ public class SpringdevelopApplication implements CommandLineRunner {
 
 		estadoRepository.saveAll(Arrays.asList(minasGerais,saoPaulo));
 		cidadeRepository.saveAll(Arrays.asList(uberlandia,saoPauloCidade,campinas));
+
+		Cliente mariaSilva = new Cliente(null, "Maria Silva", "maria@gmail.com", "56165161", TipoCliente.PESSOAFISICA);
+		mariaSilva.getTelefones().addAll(Arrays.asList("24077895","991361985"));
+
+		Endereco enderecoMariaSilva = new Endereco(
+				null, "Rua Flores", "300", "Apt 2", "Jardim","4998948", mariaSilva, uberlandia);
+		Endereco enderecoMariaSilvaAlternativo = new Endereco(
+				null, "Avenida Matos", "105","Sala 900","Centro","2661", mariaSilva, saoPauloCidade);
+
+		mariaSilva.getEnderecos().addAll(Arrays.asList(enderecoMariaSilva,enderecoMariaSilvaAlternativo));
+
+		clienteRepository.save(mariaSilva);
+		enderecoRepository.saveAll(Arrays.asList(enderecoMariaSilva,enderecoMariaSilvaAlternativo));
+
+
 
 	}
 }
