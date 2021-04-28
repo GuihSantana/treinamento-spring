@@ -1,8 +1,12 @@
 package com.treinospring.springdevelop;
 
 import com.treinospring.springdevelop.domain.Categoria;
+import com.treinospring.springdevelop.domain.Cidade;
+import com.treinospring.springdevelop.domain.Estado;
 import com.treinospring.springdevelop.domain.Produto;
 import com.treinospring.springdevelop.repositories.CategoriaRepository;
+import com.treinospring.springdevelop.repositories.CidadeRepository;
+import com.treinospring.springdevelop.repositories.EstadoRepository;
 import com.treinospring.springdevelop.repositories.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -19,6 +23,12 @@ public class SpringdevelopApplication implements CommandLineRunner {
 
 	@Autowired
 	private ProdutoRepository produtoRepository;
+
+	@Autowired
+	private EstadoRepository estadoRepository;
+
+	@Autowired
+	private CidadeRepository cidadeRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringdevelopApplication.class, args);
@@ -40,10 +50,22 @@ public class SpringdevelopApplication implements CommandLineRunner {
 		impressora.getCategorias().addAll(Arrays.asList(categoriaEscritório,categoriaInformatica));
 		mouse.getCategorias().add(categoriaInformatica);
 
-
-
 		categoriaRepository.saveAll(Arrays.asList(categoriaInformatica,categoriaEscritório));
 		produtoRepository.saveAll(Arrays.asList(computador,impressora,mouse));
+
+
+		Estado minasGerais = new Estado(null, "Minas Gerais");
+		Estado saoPaulo = new Estado(null, "São Paulo");
+
+		Cidade uberlandia = new Cidade(null, "Uberlandia", minasGerais);
+		Cidade saoPauloCidade = new Cidade(null, "São Paulo", saoPaulo);
+		Cidade campinas = new Cidade(null, "Campinas", saoPaulo);
+
+		saoPaulo.getCidades().addAll(Arrays.asList(campinas,saoPauloCidade));
+		minasGerais.getCidades().add(uberlandia);
+
+		estadoRepository.saveAll(Arrays.asList(minasGerais,saoPaulo));
+		cidadeRepository.saveAll(Arrays.asList(uberlandia,saoPauloCidade,campinas));
 
 	}
 }
